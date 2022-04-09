@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            width : 50px;
+            height : 50px;
+            border-color : violet;
+        }
+    </style>
+</head>
+<body>
+    <h1>상하좌우 키로 셀 이동하기</h1>
+    <hr>
+    <table border = "1">
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+    </table>
+    <script>
+        let random;
+        let tds;
+        let rowIndex, colIndex, realIndex;
+        let upCount = 0, downCount = 0, leftCount = 0, rightCount = 0;
+        window.onload = function(){
+            tds = document.getElementsByTagName("td")
+            random = Math.floor(Math.random()*9);
+            tds[random].style.backgroundColor = "violet";
+        }
+        
+        window.onkeydown = function(e){
+            let rightAndLeft, upAndDown;
+            if(e.key == "ArrowUp"){
+                upCount++;
+            }
+            else if(e.key == "ArrowDown"){
+                downCount++;
+            }
+            else if(e.key == "ArrowLeft"){
+                leftCount++;
+            }
+            else if(e.key == "ArrowRight"){
+                rightCount++;
+            }
+            if((downCount - upCount) >= 0){
+                upAndDown = (downCount - upCount)%3;
+                if((rightCount - leftCount) >=0){
+                    rightAndLeft = (rightCount - leftCount)%3;
+                }
+                else{
+                    rightAndLeft = 3 - (leftCount - rightCount)%3;
+                }
+            }
+            else{
+                upAndDown = 3 + (downCount - upCount)%3;
+                if((rightCount - leftCount) >=0){
+                    rightAndLeft = (rightCount - leftCount)%3;
+                }
+                else{
+                    rightAndLeft = 3 - (leftCount - rightCount)%3;
+                }
+            }
+            
+            rowIndex = ((rightAndLeft) + random%3)%3;
+            colIndex = ((upAndDown) + Math.floor(random/3))%3;
+            realIndex = colIndex*3 + rowIndex;
+            for(let i=0;i<9;i++){
+                if(i == realIndex){
+                    continue;
+                }
+                tds[i].style.backgroundColor = "white";
+            }
+            tds[realIndex].style.backgroundColor = "violet";
+        }
+        
+        
+        
+    </script>
+</body>
+</html>
